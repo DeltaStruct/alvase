@@ -1,0 +1,26 @@
+name: Octo Organization CI
+
+on:
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install g++
+        run: sudo apt install g++-12
+        
+      - name: Build Alvase
+        run : g++-12 -std=c++20 -Wall -Wextra -O2 alvase/main.cpp -o alvase/alvase
+
+      - name: Archive binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: alvase
+          path: alvase/alvase
